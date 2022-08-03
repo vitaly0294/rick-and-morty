@@ -1,0 +1,15 @@
+.pages {
+  margin: 10px;
+
+  .page {
+    margin: 5px;
+    padding: 10px;
+    background: rgb(228, 226, 226);
+    cursor: pointer;
+
+    &_active {
+      background: rgb(131, 126, 126);
+      font-weight: bold;
+    }
+  }
+}
