@@ -1,0 +1,16 @@
+.characterItem {
+  display: flex;
+  margin: 5px;
+  padding: 5px;
+  border: 1px outset #8EA49F;
+  cursor: pointer;
+
+  &-id {
+    margin-right: 5px;
+    background: rgb(218, 218, 218);
+  }
+
+  &-name {
+    margin-right: 5px;
+  }
+}
