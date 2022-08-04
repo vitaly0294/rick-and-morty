@@ -17,7 +17,7 @@ const EpisodesFilterList = ({filter, setFilter}) => {
           onChange={selectedSort => setFilter({...filter, sort: selectedSort})}
           defaultValue='Сортировка'
           options={[
-            {value: 'airDate', name: 'По дате выхода'},
+            {value: 'air_date', name: 'По дате выхода'},
             {value: 'name', name: 'По названию'}
           ]}
         />

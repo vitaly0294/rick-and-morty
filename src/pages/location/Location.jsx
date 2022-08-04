@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import './location.scss';
-
 import { useParams } from 'react-router-dom';
-import EpisodeService from '../../API/EpisodeService';
 import { useFetching } from '../../hooks/useFetching';
 import Preloader from '../../components/UI/preloader/Preloader';
 import CharacterList from '../../components/characterList/CharacterList';
 import LocationItem from '../../components/locationItem/LocationItem';
+import { getDataIdArr } from '../../utils/pages';
+import { linkApiLocation, linkApiCaracter } from '../../constants';
+import IndexService from '../../API/IndexService';
 
 const Location = () => {
   const params = useParams();
   const [location, setlocation] = useState({});
   const [characters, setСharacters] = useState([]);
-  const linkPagelocation = `https://rickandmortyapi.com/api/location/${params.id}`;
-  const [linkPageCharacters, setLinkPageCharacters] = useState();
+  const [linkPageIdArr, setLinkPageIdArr] = useState();
 
   const [fetchlocation, isLoadinglocation, errorlocation] = useFetching(async () => {
-    const response = await EpisodeService.getAll(linkPagelocation);
+    const response = await IndexService.getPageId(linkApiLocation, params.id);
     setlocation(response.data);
 
-    const arr = [];
-    response.data.residents.forEach(item => {
-      arr.push(parseInt(item.match(/\d+/)));
-    })
-    setLinkPageCharacters(`https://rickandmortyapi.com/api/character/${arr}`);
+    setLinkPageIdArr(getDataIdArr(response.data.residents))
   });
 
   const [fetchCharacter, isLoadingCharacter, errorCharacter] = useFetching(async () => {
-    const response = await EpisodeService.getAll(linkPageCharacters);
+    const response = await IndexService.getAll(linkApiCaracter, linkPageIdArr);
     setСharacters(response.data);
   });
 
@@ -36,25 +32,31 @@ const Location = () => {
   }, []);
 
   useEffect(() => {
-    if (linkPageCharacters) fetchCharacter();
-  }, [linkPageCharacters]);
+    if (linkPageIdArr) fetchCharacter();
+  }, [linkPageIdArr]);
 
   return (
     <div>
       <h1>Страница локации</h1>
 
-      {errorlocation && errorCharacter &&
-        <h2>Произошла ошибка {error}</h2>
+      {errorlocation || errorCharacter 
+        ? <h2>Произошла ошибка {error}</h2>
+        : ''
       }
 
-      {isLoadinglocation
-        ? <Preloader isLoadinglocation={isLoadinglocation}/>
-        : <LocationItem location={location}/>
+      {!isLoadinglocation 
+        ? <LocationItem location={location}/>
+        : ''
       }
 
-      {isLoadingCharacter
-        ? <Preloader isLoadingCharacter={isLoadingCharacter}/>
-        : <CharacterList characters={characters} title='Список персонажей'/>
+      {!isLoadingCharacter
+        ? <CharacterList characters={characters} title='Список персонажей'/>
+        : ''
+      }
+
+      {(isLoadinglocation || isLoadingCharacter)
+        ? <Preloader/>
+        : ''
       }
     </div>
   );

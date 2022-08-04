@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import './episode.scss';
-
 import { useParams } from 'react-router-dom';
-import EpisodeService from '../../API/EpisodeService';
 import { useFetching } from '../../hooks/useFetching';
 import EpisodeItem from '../../components/episodeItem/EpisodeItem';
 import Preloader from '../../components/UI/preloader/Preloader';
 import CharacterList from '../../components/characterList/CharacterList';
+import { getDataIdArr } from '../../utils/pages';
+import { linkApiEpisode, linkApiCaracter } from '../../constants';
+import IndexService from '../../API/IndexService';
 
 const Episode = () => {
   const params = useParams();
   const [episode, setEpisode] = useState({});
   const [characters, setСharacters] = useState([]);
-  const linkPageEpisode = `https://rickandmortyapi.com/api/episode/${params.id}`;
-  const [linkPageCharacters, setLinkPageCharacters] = useState();
+  const [linkPageIdArr, setLinkPageIdArr] = useState();
 
   const [fetchEpisode, isLoadingEpisode, errorEpisode] = useFetching(async () => {
-    const response = await EpisodeService.getAll(linkPageEpisode);
+    const response = await IndexService.getPageId(linkApiEpisode, params.id);
     setEpisode(response.data);
 
-    const arr = [];
-    response.data.characters.forEach(item => {
-      arr.push(parseInt(item.match(/\d+/)));
-    })
-    setLinkPageCharacters(`https://rickandmortyapi.com/api/character/${arr}`);
+    setLinkPageIdArr(getDataIdArr(response.data.characters));
   });
 
   const [fetchCharacter, isLoadingCharacter, errorCharacter] = useFetching(async () => {
-    const response = await EpisodeService.getAll(linkPageCharacters);
+    const response = await IndexService.getAll(linkApiCaracter, linkPageIdArr);
     setСharacters(response.data);
   });
 
@@ -36,25 +32,31 @@ const Episode = () => {
   }, []);
 
   useEffect(() => {
-    if (linkPageCharacters) fetchCharacter();
-  }, [linkPageCharacters]);
+    if (linkPageIdArr) fetchCharacter();
+  }, [linkPageIdArr]);
 
   return (
     <div>
-      <h1>Сраница эпизода</h1>
+      <h1>Страница эпизода</h1>
 
-      {errorEpisode && errorCharacter &&
-        <h2>Произошла ошибка {error}</h2>
+      {errorEpisode || errorCharacter
+        ? <h2>Произошла ошибка {error}</h2>
+        : ''
       }
 
-      {isLoadingEpisode
-        ? <Preloader isLoadingEpisode={isLoadingEpisode}/>
-        : <EpisodeItem episode={episode}/>
+      {!isLoadingEpisode
+        ? <EpisodeItem episode={episode}/>
+        : ''
       }
 
-      {isLoadingCharacter
-        ? <Preloader isLoadingCharacter={isLoadingCharacter}/>
-        : <CharacterList characters={characters} title='Список персонажей'/>
+      {!isLoadingCharacter
+        ? <CharacterList characters={characters} title='Список персонажей'/>
+        : ''
+      }
+
+      {(isLoadingEpisode || isLoadingCharacter)
+        ? <Preloader/>
+        : ''
       }
     </div>
   );

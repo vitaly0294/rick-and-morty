@@ -6,9 +6,13 @@ const LocationItem = ({ location }) => {
   return (
     <>
       {location.ip
-      ? <Link to={`/location/${location.ip}`} className='locationItem'>
-          {location.name}
-        </Link>
+      ? <>
+          <h2>Локация персонажа</h2>
+          <Link to={`/location/${location.ip}`} className='locationItem'>
+            {location.name}
+          </Link>
+        </>
+
       : <div>{location.name}</div>
       }
     </>

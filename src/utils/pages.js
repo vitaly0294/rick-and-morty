@@ -5,3 +5,15 @@ export const getPageArr = (totalPages) => {
   }
   return arr;
 }
+
+export const getDataIdArr = (dataArr) => {
+  const arr = [];
+  dataArr.forEach(item => {
+    arr.push(getDataId(item));
+  });
+  return arr;
+}
+
+export const getDataId = (str) => {
+  return parseInt(str.match(/\d+/));
+}
