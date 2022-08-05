@@ -1,33 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './main.scss';
 import EpisodeList from '../../components/episodeList/EpisodeList';
 import EpisodesFilterList from '../../components/episodesFilterList/EpisodesFilterList';
 import Preloader from '../../components/UI/preloader/Preloader';
 import { useEpisodes } from '../../hooks/useEpisodes';
-import { useFetching } from '../../hooks/useFetching';
 import { getPageArr } from '../../utils/pages';
 import Pagination from '../../components/UI/pagination/Pagination';
 import { linkApiEpisode } from '../../constants';
-import IndexService from '../../API/IndexService';
+
+import { getPageMain } from '../../actions/main';
 
 const Main = () => {
-  const [episodes, setEpisodes] = useState([]);
-  const [filter, setFilter] = useState({sort: '', query: ''});
-  const sortedAndSerchedEpisodes = useEpisodes(episodes, filter.sort, filter.query);
+  const dispatch = useDispatch();
+  const infoPage = useSelector(state => state.mainReducer);
 
-  const [fetchEpisodes, isLoading, error] = useFetching(async () => {
-    const response = await IndexService.getPage(linkApiEpisode, linkPageParam);
-    setEpisodes(response.data.results);
-    setInfoPage(response.data.info);
-  });
+  const [filter, setFilter] = useState({sort: '', query: ''});
+  const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [infoPage, setInfoPage] = useState({});
   const [linkPageParam, setLinkPageParam] = useState({});
-  const pageArr = getPageArr(infoPage.pages);
+  const pageArr = getPageArr(infoPage.info.pages);
 
   useEffect(() => {
-    fetchEpisodes();
+    dispatch(getPageMain(linkApiEpisode, linkPageParam));
   }, [linkPageParam]);
 
   const changePage = (page) => {
@@ -39,12 +35,13 @@ const Main = () => {
     <div>
       <EpisodesFilterList filter={filter} setFilter={setFilter}/>
 
-      {error &&
-        <h1>Произошла ошибка {error}</h1>
+      {infoPage.error
+        ? <h1>Произошла ошибка {error}</h1>
+        : ''
       }
 
-      {isLoading
-        ? <Preloader isLoading={isLoading}/>
+      {infoPage.isLoading
+        ? <Preloader/>
         : <>
           <EpisodeList episodes={sortedAndSerchedEpisodes} title={'Список эпизодов'}/>
           <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage}/>

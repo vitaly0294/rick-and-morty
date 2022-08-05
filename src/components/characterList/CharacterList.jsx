@@ -10,6 +10,7 @@ const CharacterList = ({characters, title}) => {
       <div>Ничего не найдено!</div>
     )
   }
+  console.log('characters: ', characters);
 
   return (
     <div className='characterList'>
