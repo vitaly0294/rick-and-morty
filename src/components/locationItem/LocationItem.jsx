@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const LocationItem = ({ location }) => {
   return (
-    <>
+    <div className='wrap'>
       {location.ip
       ? <>
           <h2>Локация персонажа</h2>
@@ -15,7 +15,7 @@ const LocationItem = ({ location }) => {
 
       : <div>{location.name}</div>
       }
-    </>
+    </div>
   );
 };
 

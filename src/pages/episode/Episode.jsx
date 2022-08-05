@@ -1,62 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './episode.scss';
 import { useParams } from 'react-router-dom';
-import { useFetching } from '../../hooks/useFetching';
 import EpisodeItem from '../../components/episodeItem/EpisodeItem';
 import Preloader from '../../components/UI/preloader/Preloader';
 import CharacterList from '../../components/characterList/CharacterList';
-import { getDataIdArr } from '../../utils/pages';
 import { linkApiEpisode, linkApiCaracter } from '../../constants';
-import IndexService from '../../API/IndexService';
+import { getPageIdEpisode, getAllEpisode } from '../../actions/episode';
 
 const Episode = () => {
   const params = useParams();
-  const [episode, setEpisode] = useState({});
-  const [characters, setСharacters] = useState([]);
-  const [linkPageIdArr, setLinkPageIdArr] = useState();
-
-  const [fetchEpisode, isLoadingEpisode, errorEpisode] = useFetching(async () => {
-    const response = await IndexService.getPageId(linkApiEpisode, params.id);
-    setEpisode(response.data);
-
-    setLinkPageIdArr(getDataIdArr(response.data.characters));
-  });
-
-  const [fetchCharacter, isLoadingCharacter, errorCharacter] = useFetching(async () => {
-    const response = await IndexService.getAll(linkApiCaracter, linkPageIdArr);
-    setСharacters(response.data);
-  });
+  const dispatch = useDispatch();
+  const episode = useSelector(state => state.episodeReducer.episode);
+  const characters = useSelector(state => state.episodeReducer.characters);
+  const linkPageIdArr = useSelector(state => state.episodeReducer.linkPageIdArr);
+  const isLoading = useSelector(state => state.episodeReducer.isLoading);
+  const errorEpisode = useSelector(state => state.episodeReducer.errorEpisode);
+  const errorCharacters = useSelector(state => state.episodeReducer.errorCharacters);
 
   useEffect(() => {
-    fetchEpisode();
+    dispatch(getPageIdEpisode(linkApiEpisode, params.id));
   }, []);
 
   useEffect(() => {
-    if (linkPageIdArr) fetchCharacter();
+    if (linkPageIdArr) dispatch(getAllEpisode(linkApiCaracter, linkPageIdArr));
   }, [linkPageIdArr]);
 
   return (
-    <div>
+    <div className='episode'>
       <h1>Страница эпизода</h1>
 
-      {errorEpisode || errorCharacter
+      {errorEpisode || errorCharacters
         ? <h2>Произошла ошибка {error}</h2>
         : ''
       }
 
-      {!isLoadingEpisode
-        ? <EpisodeItem episode={episode}/>
-        : ''
-      }
-
-      {!isLoadingCharacter
-        ? <CharacterList characters={characters} title='Список персонажей'/>
-        : ''
-      }
-
-      {(isLoadingEpisode || isLoadingCharacter)
-        ? <Preloader/>
-        : ''
+      {!isLoading
+        ? <>
+          <EpisodeItem episode={episode}/>
+          <CharacterList characters={characters} title='Список персонажей'/>
+        </>
+        : <Preloader/>
       }
     </div>
   );
