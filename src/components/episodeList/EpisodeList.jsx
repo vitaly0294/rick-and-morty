@@ -15,7 +15,7 @@ const EpisodesList = ({episodes, title}) => {
     return arr;
   }
 
-  const getSeason = (episode) => episode.substr(0, 3)
+  const getSeason = (episode) => episode.substr(0, 3);
 
   const arrSeason = getArrSeason(episodes);
 
