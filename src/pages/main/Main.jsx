@@ -9,7 +9,7 @@ import { getPageArr } from '../../utils/pages';
 import Pagination from '../../components/UI/pagination/Pagination';
 import { linkApiEpisode } from '../../constants';
 
-import { getPageMain } from '../../actions/main';
+import { getPageMain, getPageMainFilter } from '../../actions/main';
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -23,8 +23,13 @@ const Main = () => {
   const pageArr = getPageArr(infoPage.info.pages);
 
   useEffect(() => {
-    dispatch(getPageMain(linkApiEpisode, linkPageParam));
+    if (filter.query === '') dispatch(getPageMain(linkApiEpisode, linkPageParam));
+    if (filter.query !== '') dispatch(getPageMainFilter(linkApiEpisode, linkPageParam));
   }, [linkPageParam]);
+
+  useEffect(() => {
+    setLinkPageParam({...linkPageParam, name: filter.query});
+  }, [filter]);
 
   const changePage = (page) => {
     setCurrentPage(page);

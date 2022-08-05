@@ -14,3 +14,17 @@ export const getPageMain = (link, params = {}) => {
     }
   }
 }
+
+export const getPageMainFilter = (link, params = {}) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setIsLoadingMain(true));
+      const response = await axios.get(link, {
+        params: params
+      });
+      dispatch(setPageMain(response.data));
+    } catch (error) {
+      
+    }
+  }
+}
