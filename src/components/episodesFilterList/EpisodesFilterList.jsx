@@ -1,11 +1,11 @@
 import React from 'react';
-import './EpisodesFilterList.scss';
+import './episodesFilterList.scss';
 import MyInput from '../UI/input/MyInput';
 import MySelect from '../UI/select/MySelect';
 
 const EpisodesFilterList = ({filter, setFilter}) => {
   return (
-    <div>
+    <div className='wrap'>
         <MyInput
           value={filter.query}
           onChange={e => setFilter({...filter, query: e.target.value})}

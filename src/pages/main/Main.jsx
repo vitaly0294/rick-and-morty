@@ -36,7 +36,7 @@ const Main = () => {
       <EpisodesFilterList filter={filter} setFilter={setFilter}/>
 
       {infoPage.error
-        ? <h1>Произошла ошибка {error}</h1>
+        ? <h1>Произошла ошибка {infoPage.error}</h1>
         : ''
       }
 

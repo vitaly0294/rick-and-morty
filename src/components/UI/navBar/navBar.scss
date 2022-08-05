@@ -4,6 +4,12 @@
   padding: 15px;
 
   &__link {
+    text-align: center;
+    width: 100px;
     background: gainsboro;
+
+    &:hover {
+      border: 1px solid black;
+    }
   }
 }

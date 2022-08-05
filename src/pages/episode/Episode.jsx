@@ -27,7 +27,7 @@ const Episode = () => {
   }, [linkPageIdArr]);
 
   return (
-    <div>
+    <div className='episode'>
       <h1>Страница эпизода</h1>
 
       {errorEpisode || errorCharacters
