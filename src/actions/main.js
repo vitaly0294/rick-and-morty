@@ -1,5 +1,5 @@
 import axios from "axios";
-import { setPageMain, setErrorMain, setIsLoadingMain} from "../reducers/mainReducer";
+import { setPageMain, setErrorMain, setIsLoadingMain, setPageMainFilter} from "../reducers/mainReducer";
 
 export const getPageMain = (link, params = {}) => {
   return async (dispatch) => {
@@ -24,7 +24,8 @@ export const getPageMainFilter = (link, params = {}) => {
       });
       dispatch(setPageMain(response.data));
     } catch (error) {
-      
+      dispatch(setPageMainFilter(false))
+      console.log(error);
     }
   }
 }

@@ -4,7 +4,7 @@ import './episodeList.scss';
 
 import { Link } from 'react-router-dom';
 
-const EpisodesList = ({episodes, title}) => {
+const EpisodesList = ({episodes, title, sort = false}) => {
   const getArrSeason = (episodes = []) => {
     const arr = [];
     episodes.forEach(item => {
@@ -17,7 +17,7 @@ const EpisodesList = ({episodes, title}) => {
 
   const getSeason = (episode) => episode.substr(0, 3);
 
-  const arrSeason = getArrSeason(episodes);
+  const arrSeason = sort ? getArrSeason(episodes) : [];
 
   if (!episodes.length) {
     return (
@@ -28,18 +28,29 @@ const EpisodesList = ({episodes, title}) => {
   return (
     <div className='episodesList'>
       <h1>{title}</h1>
-      {arrSeason.map(season =>
-        <div key={season}>
-          <h3>Сезон {season}</h3>
-          {episodes.map(episode =>
-            getSeason(episode.episode) === season
-              ? <Link key={episode.id} to={`/episode/${episode.id}`}>
-                  <EpisodeItem episode={episode} />
-                </Link>
-              : ''
-          )}
-        </div>
-      )}
+      {sort
+        ? <>
+            {arrSeason.map(season =>
+              <div key={season}>
+                <h3>Сезон {season}</h3>
+                {episodes.map(episode =>
+                  getSeason(episode.episode) === season
+                    ? <Link key={episode.id} to={`/episode/${episode.id}`}>
+                        <EpisodeItem episode={episode} />
+                      </Link>
+                    : ''
+                )}
+              </div>
+            )}
+        </>
+        : <>
+            {episodes.map(episode =>
+              <Link key={episode.id} to={`/episode/${episode.id}`}>
+                <EpisodeItem episode={episode} />
+              </Link>
+            )}
+        </>
+      }
     </div>
   );
 };

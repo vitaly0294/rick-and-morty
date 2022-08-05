@@ -1,4 +1,4 @@
-export const getPageArr = (totalPages) => {
+export const getPageArr = (totalPages = 1) => {
   const arr = [];
   for (let i = 1; i <= totalPages; i++) {
     arr.push(i)
