@@ -48,7 +48,7 @@ const Main = () => {
       {infoPage.isLoading
         ? <Preloader/>
         : <>
-          <EpisodeList episodes={sortedAndSerchedEpisodes} title={'Список эпизодов'}/>
+          <EpisodeList episodes={sortedAndSerchedEpisodes} title={'Список эпизодов'} sort={true}/>
           <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage}/>
         </>
       }

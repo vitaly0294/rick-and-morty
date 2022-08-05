@@ -48,4 +48,4 @@ export const setPageMain = (payload) => ({type: SET_PAGE, payload: payload});
 export const setErrorMain = (payload) => ({type: SET_ERROR, payload: payload});
 export const setIsLoadingMain = (bool) => ({type: SET_IS_LOADING, payload: bool});
 
-export const setPageMainFilter = (payload) => ({type: SET_PAGE, payload: payload});
+export const setPageMainFilter = (payload) => ({type: SET_PAGE_FILTER, payload: payload});
