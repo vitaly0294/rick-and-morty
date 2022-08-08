@@ -3,14 +3,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: "development",
-  entry: ["@babel/polyfill", "./src/index.jsx"],
+  mode: 'development',
+  entry: ['@babel/polyfill', './src/index.jsx'],
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].[hash].js",
-    publicPath: "/",
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].[hash].js',
+    publicPath: '/',
   },
-  devtool: "source-map",
+  devtool: 'source-map',
   devServer: {
     port: 3000,
     historyApiFallback: true,
@@ -19,39 +19,39 @@ module.exports = {
     extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
-    new HtmlWebpackPlugin({template: "./src/index.html"}),
-    new CleanWebpackPlugin()
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new CleanWebpackPlugin(),
   ],
   module: {
     rules: [
       {
         test: /\.(css|s[ac]ss)$/,
-        use: ["style-loader", "css-loader", "sass-loader"]
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(jpg|jpeg|png|svg)$/,
-        use: ["file-loader"]
+        use: ['file-loader'],
       },
       {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"]
-          }
-        }
+            presets: ['@babel/preset-env'],
+          },
+        },
       },
       {
         test: /\.m?jsx$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-react", "@babel/preset-env"]
-          }
-        }
-      }
-    ]
-  }
-}
+            presets: ['@babel/preset-react', '@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
+};

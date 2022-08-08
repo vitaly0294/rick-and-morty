@@ -1,4 +1,6 @@
-import { useState } from "react";
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable no-shadow */
+import { useState } from 'react';
 
 export const useFetching = (callback) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +15,7 @@ export const useFetching = (callback) => {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return [fetching, isLoading, error];
-}
+};

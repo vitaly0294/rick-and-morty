@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import './myInput.scss';
 
-const MyInput = (props) => {
+function MyInput(props) {
   return (
-    <input {...props}/>
+    <input {...props} />
   );
-};
+}
 
 export default MyInput;

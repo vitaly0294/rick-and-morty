@@ -1,13 +1,13 @@
 import React from 'react';
 import './preloader.scss';
 
-const Preloader = () => {
+function Preloader() {
   return (
-    <div className='wrap'>
-      <div className='preloader'></div>
+    <div className="wrap">
+      <div className="preloader" />
     </div>
 
   );
-};
+}
 
 export default Preloader;

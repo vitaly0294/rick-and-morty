@@ -7,7 +7,7 @@ const defaultState = {
   info: {},
   results: [],
   isLoading: false,
-  error: null
+  error: null,
 };
 
 export default function mainReducer(state = defaultState, action) {
@@ -15,37 +15,37 @@ export default function mainReducer(state = defaultState, action) {
     case SET_PAGE_FILTER:
       return {
         ...state,
-        isLoading: action.payload
-      }
+        isLoading: action.payload,
+      };
 
     case SET_PAGE:
       return {
         ...state,
         info: action.payload.info,
         results: action.payload.results,
-        isLoading: false
-      }
+        isLoading: false,
+      };
 
     case SET_ERROR:
       return {
         ...state,
         error: action.payload,
-        isLoading: false
-      }
+        isLoading: false,
+      };
 
-      case SET_IS_LOADING:
-        return {
-          ...state,
-          isLoading: action.payload
-        }
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
 
     default:
       return state;
   }
 }
 
-export const setPageMain = (payload) => ({type: SET_PAGE, payload: payload});
-export const setErrorMain = (payload) => ({type: SET_ERROR, payload: payload});
-export const setIsLoadingMain = (bool) => ({type: SET_IS_LOADING, payload: bool});
+export const setPageMain = (payload) => ({ type: SET_PAGE, payload });
+export const setErrorMain = (payload) => ({ type: SET_ERROR, payload });
+export const setIsLoadingMain = (bool) => ({ type: SET_IS_LOADING, payload: bool });
 
-export const setPageMainFilter = (payload) => ({type: SET_PAGE_FILTER, payload: payload});
+export const setPageMainFilter = (payload) => ({ type: SET_PAGE_FILTER, payload });

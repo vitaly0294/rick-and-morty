@@ -1,4 +1,5 @@
-import { useMemo } from "react";
+/* eslint-disable max-len */
+import { useMemo } from 'react';
 
 export const useSortedEpisodes = (episodes, sort) => {
   const sortedEpisodes = useMemo(() => {
@@ -9,13 +10,11 @@ export const useSortedEpisodes = (episodes, sort) => {
   }, [sort, episodes]);
 
   return sortedEpisodes;
-}
+};
 
 export const useEpisodes = (episodes, sort, query) => {
   const sortedEpisodes = useSortedEpisodes(episodes, sort);
-  const sortedAndSerchedEpisodes = useMemo(() => {
-    return sortedEpisodes.filter(episode => episode.name.toLowerCase().includes(query.toLowerCase()));
-  }, [query, sortedEpisodes]);
+  const sortedAndSerchedEpisodes = useMemo(() => sortedEpisodes.filter((episode) => episode.name.toLowerCase().includes(query.toLowerCase())), [query, sortedEpisodes]);
 
   return sortedAndSerchedEpisodes;
-}
+};

@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class IndexService {
   static async getPage(link, params = {}) {
     const response = await axios.get(link, {
-      params: params
+      params,
     });
     return response;
   }

@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable default-param-last */
 const SET_PAGE_CHARACTER = 'SET_PAGE_CHARACTER';
 const SET_LINK_PAGE_ARR_CHARACTER = 'SET_LINK_PAGE_ARR_CHARACTER';
 const SET_EPISODES_LIST_IN_CHARACTER = 'SET_EPISODES_LIST_IN_CHARACTER';
@@ -24,58 +26,58 @@ export default function characterReducer(state = defaultState, action) {
       return {
         ...state,
         character: action.payload,
-        isLoading: false
-      }
+        isLoading: false,
+      };
 
     case SET_LINK_PAGE_ARR_CHARACTER:
       return {
         ...state,
         linkPageIdArr: action.payload,
-      }
+      };
 
     case SET_EPISODES_LIST_IN_CHARACTER:
       return {
         ...state,
         episodes: action.payload,
         isLoading: false,
-      }
+      };
 
     case SET_ERROR_CHARACTER_EPISODES:
       return {
         ...state,
         errorCharacter: action.payload,
-        isLoading: false
-      }
+        isLoading: false,
+      };
 
     case SET_ERROR_CHARACTER_CHARACTER:
       return {
         ...state,
         errorEpisodes: action.payload,
-        isLoading: false
-      }
+        isLoading: false,
+      };
 
     case SET_IS_LOADING_CHARACTER:
       return {
         ...state,
-        isLoading: action.payload
-      }
+        isLoading: action.payload,
+      };
 
     case SET_LOCATION_CHARACTER:
       return {
         ...state,
-        location: action.payload
-      }
+        location: action.payload,
+      };
 
     default:
       return state;
   }
 }
 
-export const setPageCharacter = (payload) => ({type: SET_PAGE_CHARACTER, payload: payload});
-export const setLinkPageIdArrEpisodes = (payload) => ({type: SET_LINK_PAGE_ARR_CHARACTER, payload: payload});
-export const setCharactersListInCharacter = (payload) => ({type: SET_EPISODES_LIST_IN_CHARACTER, payload: payload});
-export const setErrorCharacterEpisodes = (payload) => ({type: SET_ERROR_CHARACTER_EPISODES, payload: payload});
-export const setErrorCharacterCharacter = (payload) => ({type: SET_ERROR_CHARACTER_CHARACTER, payload: payload});
-export const setIsLoadingCharacter = (bool) => ({type: SET_IS_LOADING_CHARACTER, payload: bool});
+export const setPageCharacter = (payload) => ({ type: SET_PAGE_CHARACTER, payload });
+export const setLinkPageIdArrEpisodes = (payload) => ({ type: SET_LINK_PAGE_ARR_CHARACTER, payload });
+export const setCharactersListInCharacter = (payload) => ({ type: SET_EPISODES_LIST_IN_CHARACTER, payload });
+export const setErrorCharacterEpisodes = (payload) => ({ type: SET_ERROR_CHARACTER_EPISODES, payload });
+export const setErrorCharacterCharacter = (payload) => ({ type: SET_ERROR_CHARACTER_CHARACTER, payload });
+export const setIsLoadingCharacter = (bool) => ({ type: SET_IS_LOADING_CHARACTER, payload: bool });
 
-export const setLocationCharacter = (payload) => ({type: SET_LOCATION_CHARACTER, payload: payload});
+export const setLocationCharacter = (payload) => ({ type: SET_LOCATION_CHARACTER, payload });

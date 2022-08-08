@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './main.scss';
@@ -11,12 +12,11 @@ import { linkApiEpisode } from '../../constants';
 
 import { getPageMain, getPageMainFilter } from '../../actions/main';
 
-const Main = () => {
+function Main() {
   const dispatch = useDispatch();
-  const infoPage = useSelector(state => state.mainReducer);
-  console.log(infoPage);
+  const infoPage = useSelector((state) => state.mainReducer);
 
-  const [filter, setFilter] = useState({sort: '', query: ''});
+  const [filter, setFilter] = useState({ sort: '', query: '' });
   const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,32 +29,37 @@ const Main = () => {
   }, [linkPageParam]);
 
   useEffect(() => {
-    setLinkPageParam({...linkPageParam, name: filter.query});
+    setLinkPageParam({ ...linkPageParam, name: filter.query });
   }, [filter]);
 
   const changePage = (page) => {
     setCurrentPage(page);
-    setLinkPageParam({...linkPageParam, page: page});
-  }
+    setLinkPageParam({ ...linkPageParam, page });
+  };
 
   return (
     <div>
-      <EpisodesFilterList filter={filter} setFilter={setFilter}/>
+      <EpisodesFilterList filter={filter} setFilter={setFilter} />
 
       {infoPage.error
-        ? <h1>Произошла ошибка {infoPage.error}</h1>
-        : ''
-      }
+        ? (
+          <h1>
+            Произошла ошибка
+            {infoPage.error}
+          </h1>
+        )
+        : ''}
 
       {infoPage.isLoading
-        ? <Preloader/>
-        : <>
-          <EpisodeList episodes={sortedAndSerchedEpisodes} title={'Список эпизодов'} sort={true}/>
-          <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage}/>
-        </>
-      }
+        ? <Preloader />
+        : (
+          <>
+            <EpisodeList episodes={sortedAndSerchedEpisodes} title="Список эпизодов" sort />
+            <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage} />
+          </>
+        )}
     </div>
   );
-};
+}
 
 export default Main;
