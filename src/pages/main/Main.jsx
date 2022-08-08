@@ -14,6 +14,7 @@ import { getPageMain, getPageMainFilter } from '../../actions/main';
 const Main = () => {
   const dispatch = useDispatch();
   const infoPage = useSelector(state => state.mainReducer);
+  console.log(infoPage);
 
   const [filter, setFilter] = useState({sort: '', query: ''});
   const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);

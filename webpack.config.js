@@ -10,6 +10,7 @@ module.exports = {
     filename: "[name].[hash].js",
     publicPath: "/",
   },
+  devtool: "source-map",
   devServer: {
     port: 3000,
     historyApiFallback: true,
