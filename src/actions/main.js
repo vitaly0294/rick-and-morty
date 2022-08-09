@@ -1,6 +1,9 @@
 import axios from 'axios';
 import {
-  setPageMain, setErrorMain, setIsLoadingMain, setPageMainFilter,
+  setPageMain,
+  setErrorMain,
+  setIsLoadingMain,
+  setPageMainFilter,
 } from '../reducers/mainReducer';
 
 export const getPageMain = (link, params = {}) => async (dispatch) => {
@@ -11,7 +14,10 @@ export const getPageMain = (link, params = {}) => async (dispatch) => {
     });
     dispatch(setPageMain(response.data));
   } catch (error) {
-    dispatch(setErrorMain(error));
+    console.log(error);
+    dispatch(setErrorMain({
+      ...error,
+    }));
   }
 };
 

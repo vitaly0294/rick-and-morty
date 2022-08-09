@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable radix */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-plusplus */
@@ -18,3 +19,5 @@ export const getDataIdArr = (dataArr) => {
 };
 
 export const getDataId = (str) => parseInt(str.match(/\d+/));
+
+export const getRandomKey = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);

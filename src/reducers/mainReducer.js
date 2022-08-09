@@ -7,10 +7,10 @@ const defaultState = {
   info: {},
   results: [],
   isLoading: false,
-  error: null,
+  errors: [],
 };
 
-export default function mainReducer(state = defaultState, action) {
+export default function mainReducer(state = defaultState, action = {}) {
   switch (action.type) {
     case SET_PAGE_FILTER:
       return {
@@ -23,13 +23,14 @@ export default function mainReducer(state = defaultState, action) {
         ...state,
         info: action.payload.info,
         results: action.payload.results,
+        error: [],
         isLoading: false,
       };
 
     case SET_ERROR:
       return {
         ...state,
-        error: action.payload,
+        errors: [...state.errors, action.payload],
         isLoading: false,
       };
 
