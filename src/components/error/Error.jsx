@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './error.scss';
+import styles from './error.module.scss';
 import { getRandomKey } from '../../utils/pages';
 
 function Error({ errors }) {
   return (
-    <div className="error">
+    <div className={styles.error}>
       {errors.length
         ? (
           <>
-            <h2>
+            <h2 className={styles.title}>
               Что то пошло не так, попробуйте позже.
             </h2>
             {errors.map((error) => (
-              <div key={() => getRandomKey()}>
-                <p>
+              <ol key={() => getRandomKey()} className={styles.list}>
+                <li className={styles.item}>
                   {`Ошибка: ${error.message}.`}
-                </p>
-              </div>
+                </li>
+              </ol>
             ))}
           </>
         )
