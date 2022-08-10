@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './navBar.scss';
+import style from './navBar.module.scss';
 
 function NavBar() {
   return (
-    <div className="navBar">
-      <div className="navBar__link">
+    <div className={style.navBar}>
+      <span className={style.link}>
         <Link to="/">Главная</Link>
-      </div>
+      </span>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './main.scss';
+import styles from './main.module.scss';
 
 import Error from '../../components/error/Error';
 import EpisodeList from '../../components/episodeList/EpisodeList';
@@ -15,7 +15,10 @@ import { linkApiEpisode } from '../../constants';
 
 import { getPageMain, getPageMainFilter } from '../../actions/main';
 
+import mainImage from '../../asset/images/main.jpg';
+
 function Main() {
+  console.log(mainImage);
   const [linkPageParam, setLinkPageParam] = useState({});
 
   const dispatch = useDispatch();
@@ -52,6 +55,7 @@ function Main() {
   return (
     <div>
       {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
+      <img src={mainImage} alt="main" className={styles.img} />
 
       <Error errors={infoPage.errors} />
 

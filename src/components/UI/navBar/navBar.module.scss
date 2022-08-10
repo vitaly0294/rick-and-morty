@@ -1,0 +1,25 @@
+.navBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  width: 100vw;
+  padding: 15px;
+}
+
+.link {
+  margin-right: 10px;
+  padding: 5px 10px;
+
+  font-weight: 900;
+  text-align: center;
+  background: rgb(192, 245, 196); 
+  border-radius: 5px;
+  color: rgb(58, 68, 61);
+
+  &:hover {
+    background: rgb(136, 237, 145);
+    color: rgb(0, 0, 0);
+  }
+}
