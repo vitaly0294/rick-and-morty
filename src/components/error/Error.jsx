@@ -5,24 +5,22 @@ import { getRandomKey } from '../../utils/pages';
 
 function Error({ errors }) {
   return (
-    <div className={styles.error}>
-      {errors.length
-        ? (
-          <>
-            <h2 className={styles.title}>
-              Что то пошло не так, попробуйте позже.
-            </h2>
-            {errors.map((error) => (
-              <ol key={() => getRandomKey()} className={styles.list}>
-                <li className={styles.item}>
-                  {`Ошибка: ${error.message}.`}
-                </li>
-              </ol>
-            ))}
-          </>
-        )
-        : ''}
-    </div>
+    errors.length
+      ? (
+        <div className={styles.error}>
+          <h2 className={styles.title}>
+            Что то пошло не так, попробуйте позже.
+          </h2>
+          {errors.map((error) => (
+            <ol key={() => getRandomKey()} className={styles.list}>
+              <li className={styles.item}>
+                {`Ошибка: ${error.message}.`}
+              </li>
+            </ol>
+          ))}
+        </div>
+      )
+      : ''
   );
 }
 

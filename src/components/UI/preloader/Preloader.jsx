@@ -1,12 +1,11 @@
 import React from 'react';
-import './preloader.scss';
+import style from './preloader.module.scss';
 
 function Preloader() {
   return (
-    <div className="wrap">
-      <div className="preloader" />
+    <div className={style.wrap}>
+      <div className={style.preloader} />
     </div>
-
   );
 }
 

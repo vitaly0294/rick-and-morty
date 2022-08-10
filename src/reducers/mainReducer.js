@@ -23,7 +23,7 @@ export default function mainReducer(state = defaultState, action = {}) {
         ...state,
         info: action.payload.info,
         results: action.payload.results,
-        error: [],
+        errors: [],
         isLoading: false,
       };
 

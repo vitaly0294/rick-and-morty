@@ -26,7 +26,7 @@ function Main() {
   }, []);
 
   console.log('infoPage: ', infoPage);
-  console.log('infoPage.errors.length: ', infoPage.errors.length);
+  // console.log('infoPage.errors.length: ', infoPage.errors.length);
   // console.log('linkPageParam: ', linkPageParam);
 
   // const [filter, setFilter] = useState({ sort: '', query: '' });
@@ -54,6 +54,12 @@ function Main() {
       {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
 
       <Error errors={infoPage.errors} />
+
+      {infoPage.isLoading
+        ? <Preloader />
+        : (
+          <EpisodeList episodes={infoPage.results} title="Список эпизодов" sort />
+        )}
 
       {/* {infoPage.isLoading
         ? <Preloader />
