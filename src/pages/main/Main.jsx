@@ -15,10 +15,7 @@ import { linkApiEpisode } from '../../constants';
 
 import { getPageMain, getPageMainFilter } from '../../actions/main';
 
-import mainImage from '../../asset/images/main.jpg';
-
 function Main() {
-  console.log(mainImage);
   const [linkPageParam, setLinkPageParam] = useState({});
 
   const dispatch = useDispatch();
@@ -28,7 +25,7 @@ function Main() {
     dispatch(getPageMain(linkApiEpisode, linkPageParam));
   }, []);
 
-  console.log('infoPage: ', infoPage);
+  // console.log('infoPage: ', infoPage);
   // console.log('infoPage.errors.length: ', infoPage.errors.length);
   // console.log('linkPageParam: ', linkPageParam);
 
@@ -54,16 +51,16 @@ function Main() {
 
   return (
     <div>
-      {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
-      <img src={mainImage} alt="main" className={styles.img} />
-
+      {/* <img src={mainImage} alt="main" className={styles.img} /> */}
       <Error errors={infoPage.errors} />
-
       {infoPage.isLoading
         ? <Preloader />
         : (
-          <EpisodeList episodes={infoPage.results} title="Список эпизодов" sort />
+          <EpisodeList episodes={infoPage.results} title="Список эпизодов" sortSeason />
+
         )}
+
+      {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
 
       {/* {infoPage.isLoading
         ? <Preloader />

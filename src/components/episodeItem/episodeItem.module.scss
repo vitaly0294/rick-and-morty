@@ -1,0 +1,30 @@
+.episodeItem {
+  display: flex;
+  align-items: center;
+  margin: 5px;
+  padding: 5px;
+  border: 1px outset #8EA49F;
+  cursor: pointer;
+  transition: background .5s ease-out;
+
+  &:hover {
+    background:#8ea49f2e;
+  }
+}
+
+.id {
+  height: 100%;
+  margin-right: 5px;
+}
+
+.name {
+  margin-right: 5px;
+}
+
+.episode {
+  margin-right: 5px;
+}
+
+.airDate {
+  margin-right: 5px;
+}

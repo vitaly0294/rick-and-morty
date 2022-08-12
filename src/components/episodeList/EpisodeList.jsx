@@ -1,49 +1,46 @@
-/* eslint-disable no-shadow */
-/* eslint-disable react/prop-types */
-/* eslint-disable import/order */
 import React from 'react';
-import EpisodeItem from '../episodeItem/EpisodeItem';
-import './episodeList.scss';
-
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function EpisodesList({ episodes, title, sort = false }) {
-  const getArrSeason = (episodes = []) => {
-    const arr = [];
-    episodes.forEach((item) => {
-      if (!arr.includes(item.episode.substr(0, 3))) {
-        arr.push(item.episode.substr(0, 3));
-      }
+import style from './episodeList.module.scss';
+import EpisodeItem from '../episodeItem/EpisodeItem';
+
+function EpisodesList({ episodes, title, sortSeason }) {
+  const getSeason = (episode) => episode.substr(1, 2);
+  console.log(episodes);
+  const getArrSeason = (list) => {
+    const arrSeason = [];
+    list.forEach((item) => {
+      const numSeason = getSeason(item.episode);
+      if (!arrSeason.includes(numSeason)) arrSeason.push(numSeason);
     });
-    return arr;
+    return arrSeason;
   };
 
-  const getSeason = (episode) => episode.substr(0, 3);
-
-  const arrSeason = sort ? getArrSeason(episodes) : [];
-
-  if (!episodes.length) {
-    return (
-      <div>Ничего не найдено!</div>
-    );
-  }
+  const getSeasonNumberConversion = (season) => (season[0] === '0' ? season[1] : season);
 
   return (
-    <div className="episodesList">
-      <h1>{title}</h1>
-      {sort
+    <div className={style.list}>
+      <h1 className={style.title}>{title}</h1>
+
+      {episodes.length
+        ? ''
+        : (
+          <div>Эпизодов не найдено!</div>
+        )}
+
+      {sortSeason
         ? (
           <>
-            {arrSeason.map((season) => (
-              <div key={season}>
-                <h3>
-                  Сезон
-                  {season}
+            {getArrSeason(episodes).map((season) => (
+              <div key={season} className={style.season}>
+                <h3 className={style.season__title}>
+                  {`Сезон ${getSeasonNumberConversion(season)}`.toLocaleUpperCase()}
                 </h3>
                 {episodes.map((episode) => (getSeason(episode.episode) === season
                   ? (
                     <Link key={episode.id} to={`/episode/${episode.id}`}>
-                      <EpisodeItem episode={episode} />
+                      <EpisodeItem list={episode} />
                     </Link>
                   )
                   : ''))}
@@ -63,5 +60,18 @@ function EpisodesList({ episodes, title, sort = false }) {
     </div>
   );
 }
+
+EpisodesList.defaultProps = {
+  episodes: [],
+  title: 'Заголовок',
+  sortSeason: false,
+};
+
+EpisodesList.propTypes = {
+  episodes: PropTypes.arrayOf(PropTypes.shape),
+  title: PropTypes.string,
+  sortSeason: PropTypes.bool,
+
+};
 
 export default EpisodesList;

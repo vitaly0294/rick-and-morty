@@ -1,21 +1,44 @@
 /* eslint-disable camelcase */
-/* eslint-disable react/prop-types */
 import React from 'react';
-import './episodeItem.scss';
+import PropTypes from 'prop-types';
+import style from './episodeItem.module.scss';
 
-function EpisodeItem({
-  episode: {
+function EpisodeItem({ list }) {
+  const {
     id, episode, name, air_date,
-  },
-}) {
+  } = list;
+
+  const getSeriesNumber = (fullName) => fullName.slice(4);
+  console.log(getSeriesNumber('s10p01'));
+
   return (
-    <div className="episodeItem">
-      <div className="episodeItem-id">{id}</div>
-      <div className="episodeItem-episode">{episode}</div>
-      <div className="episodeItem-name">{name}</div>
-      <div className="episodeItem-air-date">{air_date}</div>
+    <div className={style.episodeItem}>
+      <div className={style.id}>{id}</div>
+      <div>
+        <div className={style.episode}>{`Серия: ${episode}`}</div>
+        <div className={style.name}>{name}</div>
+        <div className={style.airDate}>{air_date}</div>
+      </div>
     </div>
   );
 }
+
+EpisodeItem.defaultProps = {
+  list: {
+    id: 0,
+    episode: '',
+    name: '',
+    air_date: '',
+  },
+};
+
+EpisodeItem.propTypes = {
+  list: PropTypes.shape({
+    id: PropTypes.number,
+    episode: PropTypes.string,
+    name: PropTypes.string,
+    air_date: PropTypes.string,
+  }),
+};
 
 export default EpisodeItem;
