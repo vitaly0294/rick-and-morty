@@ -29,6 +29,37 @@ function Main() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [linkParam, setLinkParam] = useState({ page: currentPage });
+  const [scrollLoading, setScrollLoading] = useState(false);
+
+  const scrollHandler = (e) => {
+    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
+      setScrollLoading(true);
+    }
+  };
+
+  useEffect(() => {
+    if (currentPage < infoPage.info.pages && scrollLoading) {
+      setCurrentPage(currentPage + 1);
+      setLinkParam({ page: currentPage + 1 });
+      console.log('scrollLoading: ', scrollLoading);
+    }
+  }, [scrollLoading]);
+
+  useEffect(() => {
+    setData([]);
+    setCurrentPage(1);
+    setLinkParam({ page: 1 });
+
+    if (pagination === 'endless') {
+      document.addEventListener('scroll', scrollHandler);
+    }
+
+    return () => {
+      if (pagination === 'endless') {
+        document.removeEventListener('scroll', scrollHandler);
+      }
+    };
+  }, [pagination]);
 
   useEffect(() => {
     dispatch(getPage(linkApiEpisode, linkParam));
@@ -37,68 +68,14 @@ function Main() {
   useEffect(() => {
     if (pagination === 'page') {
       setData(infoPage.results);
+      console.log(data);
+    }
+    if (pagination === 'endless') {
+      setData([...data, ...infoPage.results]);
+      setScrollLoading(false);
+      console.log(data);
     }
   }, [infoPage.results]);
-
-  // const [a, setA] = useState(false);
-
-  // const a = useCallback(() => {
-
-  // }, []);
-
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const pageArr = getPageArr(infoPage.info.pages);
-  // console.log('a', a);
-
-  // useEffect(() => {
-  //   if (pagination === 'page') {
-  //     dispatch(getPageMain(linkApiEpisode, linkPageParam));
-  //   } else {
-  //     dispatch(getPageMainPag(linkApiEpisode, linkPageParam));
-  //     setA(false);
-  //   }
-  //   console.log(111);
-  // }, [linkPageParam]);
-
-  // const changePage = (page) => {
-  //   setCurrentPage(page);
-  //   setLinkPageParam({ ...linkPageParam, page });
-  // };
-
-  // const scrollHandler = (e) => {
-  //   if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) === 0) {
-  //     if (a !== true) {
-  //       setA(true);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   console.log(44444);
-  //   if (pagination === 'endless' && currentPage <= infoPage.info.pages) {
-  //     changePage(currentPage + 1);
-  //     console.log('currentPage: ', currentPage);
-  //   }
-  // }, [a]);
-
-  // useEffect(() => {
-  //   if (pagination === 'endless') {
-  //     document.addEventListener('scroll', scrollHandler);
-  //   }
-
-  //   if (currentPage !== 1) {
-  //     dispatch(setPageClean());
-  //     changePage(1);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener('scroll', scrollHandler);
-  //   };
-  // }, [pagination]);
-
-  // console.log('infoPage: ', infoPage);
-  // console.log('infoPage.errors.length: ', infoPage.errors.length);
-  // console.log('linkPageParam: ', linkPageParam);
 
   // const [filter, setFilter] = useState({ sort: '', query: '' });
   // const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);
@@ -131,19 +108,23 @@ function Main() {
         ? <Preloader />
         : (
           <>
-            <EpisodeList episodes={data} title="Список эпизодов" sortSeason />
-            <Pagination
-              pages={infoPage.info.pages}
-              nextLink={infoPage.info.next}
-              prevLink={infoPage.info.prev}
-              linkParam={linkParam}
-              setLinkParam={setLinkParam}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+            <EpisodeList
+              episodes={data}
+              title="Список эпизодов"
+              sortSeason
             />
-            {/* {pagination === 'page'
-              ? <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage} />
-              : ''} */}
+
+            {pagination === 'page' && (
+              <Pagination
+                pages={infoPage.info.pages}
+                nextLink={infoPage.info.next}
+                prevLink={infoPage.info.prev}
+                linkParam={linkParam}
+                setLinkParam={setLinkParam}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+              />
+            )}
           </>
         )}
 
