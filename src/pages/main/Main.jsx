@@ -27,7 +27,8 @@ function Main() {
 
   const [pagination, setPagination] = useState('page');
 
-  const [linkParam, setLinkParam] = useState({ page: 1 });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [linkParam, setLinkParam] = useState({ page: currentPage });
 
   useEffect(() => {
     dispatch(getPage(linkApiEpisode, linkParam));
@@ -131,7 +132,15 @@ function Main() {
         : (
           <>
             <EpisodeList episodes={data} title="Список эпизодов" sortSeason />
-            <Pagination pages={infoPage.info.pages} linkParam={linkParam} setLinkParam={setLinkParam} />
+            <Pagination
+              pages={infoPage.info.pages}
+              nextLink={infoPage.info.next}
+              prevLink={infoPage.info.prev}
+              linkParam={linkParam}
+              setLinkParam={setLinkParam}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
             {/* {pagination === 'page'
               ? <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage} />
               : ''} */}
@@ -139,15 +148,6 @@ function Main() {
         )}
 
       {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
-
-      {/* {infoPage.isLoading
-        ? <Preloader />
-        : (
-          <>
-            <EpisodeList episodes={sortedAndSerchedEpisodes} title="Список эпизодов" sort />
-            <Pagination pageArr={pageArr} changePage={changePage} currentPage={currentPage} />
-          </>
-        )} */}
     </div>
   );
 }

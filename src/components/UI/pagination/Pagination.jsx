@@ -1,13 +1,17 @@
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-import React, { useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-import './pagination.scss';
+import React from 'react';
+import PropTypes from 'prop-types';
+import style from './pagination.module.scss';
 import { getPageArr } from '../../../utils/pages';
 
-function Pagination({ pages, linkParam, setLinkParam }) {
-  const [currentPage, setCurrentPage] = useState(1);
+function Pagination({
+  pages,
+  linkParam,
+  setLinkParam,
+  prevLink,
+  nextLink,
+  currentPage,
+  setCurrentPage,
+}) {
   const pageArr = getPageArr(pages);
 
   const changePage = (page) => {
@@ -16,18 +20,56 @@ function Pagination({ pages, linkParam, setLinkParam }) {
   };
 
   return (
-    <div className="pages">
+    <div className={style.pages}>
+
+      <button
+        type="button"
+        onClick={prevLink && (() => changePage(currentPage - 1))}
+        className={`${style.page} ${!prevLink && style.disabled}`}
+      >
+        🡄
+      </button>
+
       {pageArr.map((page) => (
-        <span
-          onClick={() => changePage(page)}
+        <button
+          type="button"
+          onClick={() => page !== currentPage && changePage(page)}
           key={page}
-          className={page === currentPage ? 'page page_active' : 'page'}
+          className={`${style.page} ${page === currentPage && style.active}`}
         >
           {page}
-        </span>
+        </button>
       ))}
+
+      <button
+        type="button"
+        onClick={nextLink && (() => changePage(currentPage + 1))}
+        className={`${style.page} ${!nextLink && style.disabled}`}
+      >
+        🡆
+      </button>
     </div>
   );
 }
+
+Pagination.defaultProps = {
+  pages: null,
+  linkParam: {},
+  setLinkParam: () => {},
+  prevLink: null,
+  nextLink: null,
+  currentPage: 1,
+  setCurrentPage: () => {},
+};
+
+Pagination.propTypes = {
+  pages: PropTypes.number,
+  linkParam: PropTypes.shape(),
+  setLinkParam: PropTypes.func,
+  prevLink: PropTypes.string,
+  nextLink: PropTypes.string,
+  currentPage: PropTypes.number,
+  setCurrentPage: PropTypes.func,
+};
 
 export default Pagination;

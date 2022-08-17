@@ -7,7 +7,9 @@
   cursor: pointer;
   transition: background .5s ease-out;
 
-  &:hover {
+  &:hover,
+  &:focus 
+  &:active {
     background:#8ea49f6a;
   }
 }

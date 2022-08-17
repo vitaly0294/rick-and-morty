@@ -1,0 +1,36 @@
+.pages {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  width: 35px;
+  height: 35px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.869);
+  border: solid 1px rgb(136, 237, 145);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+}
+
+.page.active,
+.page:hover {
+  background-color: rgb(136, 237, 145);
+  color: rgb(58, 68, 61);
+}
+
+.page.disabled {
+  background-color: transparent !important;
+  cursor: not-allowed;
+  opacity: 0.5;
+
+  &:hover {
+    color: white;
+  }
+}
