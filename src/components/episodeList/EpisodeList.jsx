@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import style from './episodeList.module.scss';
 import EpisodeItem from '../episodeItem/EpisodeItem';
 
+import { getNumberNoNullLeft } from '../../utils/pages';
+
 function EpisodesList({ episodes, title, sortSeason }) {
   const getSeason = (episode) => episode.substr(1, 2);
-  console.log(episodes);
   const getArrSeason = (list) => {
     const arrSeason = [];
     list.forEach((item) => {
@@ -16,8 +17,6 @@ function EpisodesList({ episodes, title, sortSeason }) {
     });
     return arrSeason;
   };
-
-  const getSeasonNumberConversion = (season) => (season[0] === '0' ? season[1] : season);
 
   return (
     <div className={style.list}>
@@ -34,13 +33,13 @@ function EpisodesList({ episodes, title, sortSeason }) {
           <>
             {getArrSeason(episodes).map((season) => (
               <div key={season} className={style.season}>
-                <h3 className={style.season__title}>
-                  {`Сезон ${getSeasonNumberConversion(season)}`.toLocaleUpperCase()}
-                </h3>
+                <h2 className={style.season__title}>
+                  {`Сезон ${getNumberNoNullLeft(season)}`.toLocaleUpperCase()}
+                </h2>
                 {episodes.map((episode) => (getSeason(episode.episode) === season
                   ? (
                     <Link key={episode.id} to={`/episode/${episode.id}`}>
-                      <EpisodeItem list={episode} />
+                      <EpisodeItem item={episode} />
                     </Link>
                   )
                   : ''))}
@@ -52,7 +51,7 @@ function EpisodesList({ episodes, title, sortSeason }) {
           <>
             {episodes.map((episode) => (
               <Link key={episode.id} to={`/episode/${episode.id}`}>
-                <EpisodeItem episode={episode} />
+                <EpisodeItem item={episode} />
               </Link>
             ))}
           </>

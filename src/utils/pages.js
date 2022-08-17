@@ -21,3 +21,5 @@ export const getDataIdArr = (dataArr) => {
 export const getDataId = (str) => parseInt(str.match(/\d+/));
 
 export const getRandomKey = () => Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+export const getNumberNoNullLeft = (num) => (num[0] === '0' ? num[1] : num);

@@ -3,28 +3,42 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './episodeItem.module.scss';
 
-function EpisodeItem({ list }) {
+import { getNumberNoNullLeft } from '../../utils/pages';
+
+function EpisodeItem({ item }) {
   const {
     id, episode, name, air_date,
-  } = list;
+  } = item;
 
-  const getSeriesNumber = (fullName) => fullName.slice(4);
-  console.log(getSeriesNumber('s10p01'));
+  const getSeriesNumber = (fullName) => getNumberNoNullLeft(fullName.slice(4));
 
   return (
-    <div className={style.episodeItem}>
+    <div className={(id % 2) ? style.episodeItem : `${style.episodeItem} ${style.episodeItemColor}`}>
       <div className={style.id}>{id}</div>
-      <div>
-        <div className={style.episode}>{`Серия: ${episode}`}</div>
-        <div className={style.name}>{name}</div>
-        <div className={style.airDate}>{air_date}</div>
+      <div className={style.info}>
+        <div className={style.titleOne}>
+          <p className={style.titleItem}>Эпизод</p>
+          <p className={style.value}>{getSeriesNumber(episode)}</p>
+        </div>
+
+        <div className={style.titleTwo}>
+          <p className={style.titleItem}>Название эпизода</p>
+          <h3 className={style.value}>{name}</h3>
+        </div>
+
+        <div className={style.titleOne}>
+          <p className={style.titleItem}>Дата выхода эпизода</p>
+          <p className={style.value}>{air_date}</p>
+        </div>
+
       </div>
+
     </div>
   );
 }
 
 EpisodeItem.defaultProps = {
-  list: {
+  item: {
     id: 0,
     episode: '',
     name: '',
@@ -33,7 +47,7 @@ EpisodeItem.defaultProps = {
 };
 
 EpisodeItem.propTypes = {
-  list: PropTypes.shape({
+  item: PropTypes.shape({
     id: PropTypes.number,
     episode: PropTypes.string,
     name: PropTypes.string,
