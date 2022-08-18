@@ -20,45 +20,15 @@ import {
 } from '../../actions/main';
 import { setPageClean } from '../../reducers/mainReducer';
 
+import { usePagination } from '../../hooks/usePagination';
+
 function Main() {
   const dispatch = useDispatch();
   const infoPage = useSelector((state) => state.mainReducer);
   const [data, setData] = useState([]);
 
-  const [pagination, setPagination] = useState('page');
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [linkParam, setLinkParam] = useState({ page: currentPage });
-  const [scrollLoading, setScrollLoading] = useState(false);
-
-  const scrollHandler = (e) => {
-    if (e.target.documentElement.scrollHeight - (e.target.documentElement.scrollTop + window.innerHeight) < 100) {
-      setScrollLoading(true);
-    }
-  };
-
-  useEffect(() => {
-    if (currentPage < infoPage.info.pages && scrollLoading) {
-      setCurrentPage(currentPage + 1);
-      setLinkParam({ page: currentPage + 1 });
-    }
-  }, [scrollLoading]);
-
-  useEffect(() => {
-    setData([]);
-    setCurrentPage(1);
-    setLinkParam({ page: 1 });
-
-    if (pagination === 'endless') {
-      document.addEventListener('scroll', scrollHandler);
-    }
-
-    return () => {
-      if (pagination === 'endless') {
-        document.removeEventListener('scroll', scrollHandler);
-      }
-    };
-  }, [pagination]);
+  const [linkParam, setLinkParam] = useState({ page: 1 });
+  const [pagination, setPagination, currentPage, setCurrentPage, setScrollLoading] = usePagination(setData, infoPage, setLinkParam);
 
   useEffect(() => {
     dispatch(getPage(linkApiEpisode, linkParam));
@@ -67,12 +37,10 @@ function Main() {
   useEffect(() => {
     if (pagination === 'page') {
       setData(infoPage.results);
-      console.log(data);
     }
     if (pagination === 'endless') {
       setData([...data, ...infoPage.results]);
       setScrollLoading(false);
-      console.log(data);
     }
   }, [infoPage.results]);
 
