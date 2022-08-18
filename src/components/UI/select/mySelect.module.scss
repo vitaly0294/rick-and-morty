@@ -1,0 +1,31 @@
+.wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 20px;
+}
+
+.title {
+  margin-right: 5px;
+}
+
+.select {   
+  margin: 5px;
+  padding: 5px;
+  border: solid 1px rgb(136, 237, 145); 
+  border-radius: 5px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.869);
+  transition: background 0.5s ease-out;
+  
+  &:hover { 
+    background-color: rgb(136, 237, 145);
+    color: rgb(58, 68, 61) !important;
+  }
+
+  &:focus { 
+    box-shadow: inset 0px 0px 1px 1px rgba(255, 255, 255, .8); 
+    color: white;
+    outline: none; 
+  } 
+}

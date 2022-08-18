@@ -1,25 +1,32 @@
 import React from 'react';
-import './mySelect.scss';
 import PropTypes from 'prop-types';
+import style from './mySelect.module.scss';
 
 function MySelect({
-  options, defaultValue, value, onChange, name,
+  options, defaultValue, value, onChange, name, nameSelect,
 }) {
   return (
-    <select
-      name={name}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-    >
-      {defaultValue !== ''
-        ? <option disabled>{defaultValue}</option>
-        : ''}
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.name}
-        </option>
-      ))}
-    </select>
+    <div className={style.wrap}>
+      {nameSelect !== '' && (
+        <h3 className={style.title}>
+          {`${nameSelect.toUpperCase()}: `}
+        </h3>
+      )}
+
+      <select
+        name={name}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={style.select}
+      >
+        {defaultValue !== '' && <option disabled>{defaultValue}</option>}
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.name.toUpperCase()}
+          </option>
+        ))}
+      </select>
+    </div>
   );
 }
 
@@ -29,6 +36,7 @@ MySelect.defaultProps = {
   value: '',
   onChange: () => {},
   name: '',
+  nameSelect: '',
 };
 
 MySelect.propTypes = {
@@ -40,6 +48,7 @@ MySelect.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   name: PropTypes.string,
+  nameSelect: PropTypes.string,
 };
 
 export default MySelect;

@@ -13,32 +13,32 @@ import Preloader from '../../components/UI/preloader/Preloader';
 import { useEpisodes } from '../../hooks/useEpisodes';
 import { getPageArr, getRandomKey } from '../../utils/pages';
 import Pagination from '../../components/UI/pagination/Pagination';
-import { linkApiEpisode } from '../../constants';
+import { linkApiEpisode, endlessPagination, pagePagination } from '../../constants';
 
 import {
   getPage, getPageMain, getPageMainFilter, getPageMainPag,
 } from '../../actions/main';
 import { setPageClean } from '../../reducers/mainReducer';
 
-import { usePagination } from '../../hooks/usePagination';
+import usePagination from '../../hooks/usePagination';
 
 function Main() {
   const dispatch = useDispatch();
   const infoPage = useSelector((state) => state.mainReducer);
+  const [choicePagination, setChoicePagination] = useState(pagePagination);
   const [data, setData] = useState([]);
-
   const [linkParam, setLinkParam] = useState({ page: 1 });
-  const [pagination, setPagination, currentPage, setCurrentPage, setScrollLoading] = usePagination(setData, infoPage, setLinkParam);
+  const [currentPage, setCurrentPage, setScrollLoading] = usePagination(setData, infoPage, setLinkParam, choicePagination, endlessPagination);
 
   useEffect(() => {
     dispatch(getPage(linkApiEpisode, linkParam));
   }, [linkParam]);
 
   useEffect(() => {
-    if (pagination === 'page') {
+    if (choicePagination === pagePagination) {
       setData(infoPage.results);
     }
-    if (pagination === 'endless') {
+    if (choicePagination === endlessPagination) {
       setData([...data, ...infoPage.results]);
       setScrollLoading(false);
     }
@@ -61,12 +61,13 @@ function Main() {
       <div>
         <MySelect
           name="pagination"
-          value={pagination}
-          onChange={(value) => setPagination(value)}
+          value={choicePagination}
+          onChange={(value) => setChoicePagination(value)}
           options={[
-            { value: 'page', name: 'Постраничная' },
-            { value: 'endless', name: 'Бесконечная' },
+            { value: pagePagination, name: 'Постраничная' },
+            { value: endlessPagination, name: 'Бесконечная' },
           ]}
+          nameSelect="Выбор типа пагинации"
         />
       </div>
 
@@ -83,7 +84,7 @@ function Main() {
         <Preloader />
       )}
 
-      {pagination === 'page' && (
+      {choicePagination === pagePagination && (
         <Pagination
           pages={infoPage.info.pages}
           nextLink={infoPage.info.next}
