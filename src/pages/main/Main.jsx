@@ -41,7 +41,6 @@ function Main() {
     if (currentPage < infoPage.info.pages && scrollLoading) {
       setCurrentPage(currentPage + 1);
       setLinkParam({ page: currentPage + 1 });
-      console.log('scrollLoading: ', scrollLoading);
     }
   }, [scrollLoading]);
 
@@ -104,29 +103,29 @@ function Main() {
       </div>
 
       <Error errors={infoPage.errors} />
-      {infoPage.isLoading
-        ? <Preloader />
-        : (
-          <>
-            <EpisodeList
-              episodes={data}
-              title="Список эпизодов"
-              sortSeason
-            />
 
-            {pagination === 'page' && (
-              <Pagination
-                pages={infoPage.info.pages}
-                nextLink={infoPage.info.next}
-                prevLink={infoPage.info.prev}
-                linkParam={linkParam}
-                setLinkParam={setLinkParam}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-              />
-            )}
-          </>
-        )}
+      <EpisodeList
+        isLoading={infoPage.isLoading}
+        episodes={data}
+        title="Список эпизодов"
+        sortSeason
+      />
+
+      {infoPage.isLoading && (
+        <Preloader />
+      )}
+
+      {pagination === 'page' && (
+        <Pagination
+          pages={infoPage.info.pages}
+          nextLink={infoPage.info.next}
+          prevLink={infoPage.info.prev}
+          linkParam={linkParam}
+          setLinkParam={setLinkParam}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      )}
 
       {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
     </div>

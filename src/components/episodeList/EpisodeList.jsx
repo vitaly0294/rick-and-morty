@@ -7,7 +7,12 @@ import EpisodeItem from '../episodeItem/EpisodeItem';
 
 import { getNumberNoNullLeft } from '../../utils/pages';
 
-function EpisodesList({ episodes, title, sortSeason }) {
+function EpisodesList({
+  episodes,
+  title,
+  sortSeason,
+  isLoading,
+}) {
   const getSeason = (episode) => episode.substr(1, 2);
   const getArrSeason = (list) => {
     const arrSeason = [];
@@ -22,11 +27,9 @@ function EpisodesList({ episodes, title, sortSeason }) {
     <div className={style.list}>
       <h1 className={style.title}>{title}</h1>
 
-      {episodes.length
-        ? ''
-        : (
-          <div>Эпизодов не найдено!</div>
-        )}
+      {!episodes.length && isLoading && (
+        <div>Эпизодов не найдено!</div>
+      )}
 
       {sortSeason
         ? (
@@ -64,12 +67,14 @@ EpisodesList.defaultProps = {
   episodes: [],
   title: 'Заголовок',
   sortSeason: false,
+  isLoading: true,
 };
 
 EpisodesList.propTypes = {
   episodes: PropTypes.arrayOf(PropTypes.shape),
   title: PropTypes.string,
   sortSeason: PropTypes.bool,
+  isLoading: PropTypes.bool,
 
 };
 
