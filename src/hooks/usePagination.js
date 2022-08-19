@@ -6,6 +6,7 @@ const usePagination = (
   setLinkParam,
   choicePagination,
   endlessPagination,
+  initialLoadPage = true,
 ) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [scrollLoading, setScrollLoading] = useState(false);
@@ -13,7 +14,7 @@ const usePagination = (
   const scrollHandler = (e) => {
     const { scrollHeight, scrollTop } = e.target.documentElement;
     const { innerHeight } = window;
-    if (scrollHeight - (scrollTop + innerHeight) < 100) setScrollLoading(true);
+    if (scrollHeight - (scrollTop + innerHeight) === 0) setScrollLoading(true);
   };
 
   useEffect(() => {
@@ -24,9 +25,11 @@ const usePagination = (
   }, [scrollLoading]);
 
   useEffect(() => {
-    setData([]);
-    setCurrentPage(1);
-    setLinkParam({ page: 1 });
+    if (initialLoadPage) {
+      setData([]);
+      setCurrentPage(1);
+      setLinkParam({ page: 1 });
+    }
 
     if (choicePagination === endlessPagination) document.addEventListener('scroll', scrollHandler);
 

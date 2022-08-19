@@ -27,7 +27,7 @@ function EpisodesList({
     <div className={style.list}>
       <h1 className={style.title}>{title}</h1>
 
-      {!episodes.length && isLoading && (
+      {!episodes.length && !isLoading && (
         <div>Эпизодов не найдено!</div>
       )}
 

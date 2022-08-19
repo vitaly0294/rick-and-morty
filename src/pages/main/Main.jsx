@@ -14,6 +14,7 @@ import { useEpisodes } from '../../hooks/useEpisodes';
 import { getPageArr, getRandomKey } from '../../utils/pages';
 import Pagination from '../../components/UI/pagination/Pagination';
 import { linkApiEpisode, endlessPagination, pagePagination } from '../../constants';
+import MyInput from '../../components/UI/input/MyInput';
 
 import {
   getPage, getPageMain, getPageMainFilter, getPageMainPag,
@@ -28,21 +29,39 @@ function Main() {
   const [choicePagination, setChoicePagination] = useState(pagePagination);
   const [data, setData] = useState([]);
   const [linkParam, setLinkParam] = useState({ page: 1 });
-  const [currentPage, setCurrentPage, setScrollLoading] = usePagination(setData, infoPage, setLinkParam, choicePagination, endlessPagination);
+  const initialLoadPage = false;
+  const [currentPage, setCurrentPage, setScrollLoading] = usePagination(setData, infoPage, setLinkParam, choicePagination, endlessPagination, initialLoadPage);
+
+  const [search, setSearch] = useState({ name: '' });
+  const [checkError, setCheckError] = useState(true);
 
   useEffect(() => {
-    dispatch(getPage(linkApiEpisode, linkParam));
+    dispatch(getPage(linkApiEpisode, linkParam, checkError));
   }, [linkParam]);
 
   useEffect(() => {
-    if (choicePagination === pagePagination) {
-      setData(infoPage.results);
-    }
+    if (choicePagination === pagePagination) setData(infoPage.results);
     if (choicePagination === endlessPagination) {
       setData([...data, ...infoPage.results]);
       setScrollLoading(false);
     }
   }, [infoPage.results]);
+
+  useEffect(() => {
+    setData([]);
+    if (search.name === '') {
+      setCurrentPage(1);
+      setLinkParam({ page: 1 });
+    }
+
+    setCheckError(search.name === '');
+
+    setLinkParam(search);
+  }, [search]);
+
+  useEffect(() => {
+    setSearch({ name: '' });
+  }, [choicePagination]);
 
   // const [filter, setFilter] = useState({ sort: '', query: '' });
   // const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);
@@ -56,6 +75,8 @@ function Main() {
   //   setLinkPageParam({ ...linkPageParam, name: filter.query });
   // }, [filter]);
 
+  // console.log(infoPage.results);
+
   return (
     <div>
       <div>
@@ -68,6 +89,15 @@ function Main() {
             { value: endlessPagination, name: 'Бесконечная' },
           ]}
           nameSelect="Выбор типа пагинации"
+        />
+        {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
+      </div>
+
+      <div>
+        <MyInput
+          value={search.name}
+          onChange={(e) => setSearch({ name: e.target.value })}
+          placeholder="Поиск..."
         />
       </div>
 
@@ -84,7 +114,7 @@ function Main() {
         <Preloader />
       )}
 
-      {choicePagination === pagePagination && (
+      {choicePagination === pagePagination && Boolean(infoPage.results.length) && (
         <Pagination
           pages={infoPage.info.pages}
           nextLink={infoPage.info.next}
@@ -96,7 +126,6 @@ function Main() {
         />
       )}
 
-      {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
     </div>
   );
 }
