@@ -13,6 +13,17 @@ function EpisodesList({
   sortSeason,
   isLoading,
 }) {
+  // const [filter, setFilter] = useState({ sort: '', query: '' });
+  // const sortedAndSerchedEpisodes = useEpisodes(infoPage.results, filter.sort, filter.query);
+
+  // useEffect(() => {
+  //   setLinkPageParam({ ...linkPageParam, name: filter.query });
+  // }, [filter]);
+
+  // {/* <EpisodesFilterList filter={filter} setFilter={setFilter} /> */}
+  // import EpisodesFilterList from '../../components/episodesFilterList/EpisodesFilterList';
+  // import { useEpisodes } from '../../hooks/useEpisodes';
+
   const getSeason = (episode) => episode.substr(1, 2);
   const getArrSeason = (list) => {
     const arrSeason = [];

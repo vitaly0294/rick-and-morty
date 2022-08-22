@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './myInput.scss';
+import style from './myInput.module.scss';
 
 function MyInput({ value, onChange, placeholder }) {
   return (
-    <input value={value} onChange={onChange} placeholder={placeholder} />
+    <input value={value} onChange={onChange} placeholder={placeholder} className={style.input} />
   );
 }
 
